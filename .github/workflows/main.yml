@@ -24,4 +24,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: docker ci
-      run: docker-compose -f docker-compose.ci.build.yml up -d
+      run: docker-compose -f docker-compose.ci.build.yml up
+    - name: docker build
+      run: docker-compose -f docker-compose.yml up
