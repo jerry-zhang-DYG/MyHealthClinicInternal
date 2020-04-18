@@ -29,7 +29,7 @@ namespace MyHealth.Web
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
 
-            builder.AddEnvironmentVariables();
+            builder.AddEnvironmentVariables("");
             Configuration = builder.Build();
         }
 

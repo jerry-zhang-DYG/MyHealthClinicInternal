@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mhc-sql
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  selector:
+    matchLabels:
+      app: mhc-sql
+  template:
+    metadata:
+      labels:
+        app: mhc-sql
+    spec:
+      containers:
+      - name: mhc-sql
+        image: mcr.microsoft.com/mssql/server
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+                name: mhc-database
+                key: password
+---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: mhc-sql
+    spec:
+      type: ClusterIP
+      ports:
+      - port: 1433
+      selector:
+        app: mhc-sql    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mhc-front
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  selector:
+    matchLabels:
+      app: mhc-front
+  template:
+    metadata:
+      labels:
+        app: mhc-front
+    spec:
+      containers:
+      - name: mhc-front
+        image: myhealth.web:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+                name: mhc-database
+                key: connection
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mhc-front
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: mhc-front
