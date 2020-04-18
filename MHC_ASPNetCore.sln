@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyHealth.Web", "src\MyHealt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyHealth.API.IntegrationTests", "test\MyHealth.API.IntegrationTests\MyHealth.API.IntegrationTests.csproj", "{E150AB03-F223-4880-B248-90917C387899}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7F9B0660-10AC-4BDD-8D18-CB5A373E5089}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

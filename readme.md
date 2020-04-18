@@ -1,5 +1,21 @@
 #My Health Clinic
 
+## Docker Compose Quickstart
+The following will run a SQL Server container and an instance of the web application.
+1. Ensure you have Docker up and running
+2. Ensure you have installed Docker Compose
+3. Open a terminal/shell to the root folder of this solutio0n
+4. Run: ```docker-compose up```
+5. Open a web browser and test http://localhost
+
+The following will run _only_ a SQL container:
+1. Ensure you have Docker up and running
+2. Ensure you have installed Docker Compose
+3. Open a terminal/shell to the root folder of this solutio0n
+4. Run: ```docker-compose -f docker-compose-sql.yml up```
+
+The MyHealth app is alreadyu configured to use this instance.
+
 ## Overview
 My Health Clinic, a sample application built for demo and training purposes, is for a fictious health care provider **HealthClinic.biz**. 
 HealthClinic.biz uses different Microsoft and multi-channel apps built with Visual Studio and Azure to grow their business and modernize their customer experience. 
