@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -15,3 +15,5 @@
 /src/MyHealth.Helpers/obj
 /test/MyHealth.API.IntegrationTests/obj
 /test/MyHealth.API.IntegrationTests/bin/Debug/netcoreapp1.0
+
+**/bin
