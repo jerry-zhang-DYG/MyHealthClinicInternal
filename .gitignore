@@ -17,3 +17,4 @@
 /test/MyHealth.API.IntegrationTests/bin/Debug/netcoreapp1.0
 
 **/bin
+.vscode/
