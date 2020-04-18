@@ -14,7 +14,42 @@ The following will run _only_ a SQL container:
 3. Open a terminal/shell to the root folder of this solutio0n
 4. Run: ```docker-compose -f docker-compose-sql.yml up```
 
-The MyHealth app is alreadyu configured to use this instance.
+The MyHealth app is already configured to use this instance.
+
+## Kubernetes Quickstart
+The following will use a local Docker/Kubernetes installation to SQL and this web app
+
+### 1. Create a Kubernetes Secret
+The deployment uses a secret to inject the SQL configuration and password into the containers. Simply create the secret, using a password of your choice:
+
+```kubectl create secret generic mhc-database --from-literal=password='SomePass123@@@' --from-literal=connection='Server=tcp:mhc-sql;Initial Catalog=mhcdb;Persist Security Info=False;User ID=sa;Password=SomePass123@@@;MultipleActiveResultSets=False;TrustServerCertificate=True;Connection Timeout=30;'```
+
+Note there are two keys in this secret: password and connection.
+
+### 2. Build the images (local)
+If you don't already have a copy of the images locally:
+
+```docker-compose build```
+
+### 3. Create the Kubernetes Deployment
+The mhc-sql-local.yaml file deployes the two containers and two services:
+* mhc-front (Deployment): Front end pod serving the web application
+* mhc-sql (Deployment): SQL Server in a Linux Container
+* mhc-front (Service): Load balanced service hosting the web app in port 80
+* mhc-sql (Service): Cluster-only (internal) service hosting SQL on port 1433
+
+### 4. TEST
+You should be able to reach the web application on http://localhost
+
+### Teardown
+Simply delete each item that got created above:
+
+```
+kubectl delete deployment mhc-front
+kubectl delete deployment mhc-sql
+kubectl delete service mhc-front
+kubectl delete service mhc-sql
+```
 
 ## Overview
 My Health Clinic, a sample application built for demo and training purposes, is for a fictious health care provider **HealthClinic.biz**. 
