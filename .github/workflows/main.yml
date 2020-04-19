@@ -48,3 +48,13 @@ jobs:
 
     - name: Display Images
       run: docker images
+
+    # Tags and Pushes the image to the ECR
+    - name: Tag and Push the Image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: water-medical-0413
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        echo $IMAGE_TAG
+        
