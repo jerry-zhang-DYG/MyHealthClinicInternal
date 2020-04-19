@@ -58,6 +58,7 @@ jobs:
       run: |
         echo $IMAGE_TAG
         # Build a docker container and push it to ECR so that it can be deployed to EKS.
-        docker tag $IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG   
         
