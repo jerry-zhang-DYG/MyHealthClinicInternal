@@ -45,4 +45,6 @@ jobs:
     # Runs a single command using the runners shell
     - name: docker build
       run: docker-compose -f docker-compose.yml build
+
+    - name: Display Images
       run: docker images
