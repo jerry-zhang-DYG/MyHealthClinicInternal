@@ -51,6 +51,7 @@ jobs:
 
     # Tags and Pushes the image to the ECR
     - name: Tag and Push the Image
+      id: tag-image  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: water-medical-0413
@@ -60,6 +61,7 @@ jobs:
         echo docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         echo $IMAGE_TAG
         
     - name: Setup kubeconfig
@@ -72,7 +74,7 @@ jobs:
       id: deploy-k8s-yaml
       env:
         K8S_YAML_DIR: ./manifests 
-        IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+        IMAGE_NAME: ${{ steps.tag-image.outputs.image }}
       run: |
         # Setup kustomize
         cd $K8S_YAML_DIR
