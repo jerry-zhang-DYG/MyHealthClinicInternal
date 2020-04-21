@@ -19,13 +19,19 @@ spec:
         # image: REGISTRY/REPO:TAG
         # The full image will be dynamically added by Kustomize in the workflow.
         image: image-placeholder
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         - containerPort: 443
         resources:
           requests:
-            cpu: 20m
+            cpu: 250m
           limits:
-            cpu: 50m
+            cpu: 500m
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+                name: mssql-secret
+                key: db-connection-string-secret
       terminationGracePeriodSeconds: 120
