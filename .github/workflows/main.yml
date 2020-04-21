@@ -49,9 +49,9 @@ jobs:
 
     - name: Invoke Secret key
       run: |
-        kubectl apply -f ./manifests/mssql-secret.yaml  
-        kubectl get secrets  
-        kubectl create secret generic mhc-database --from-literal=password=${{ secrets.SQL_DB_PASSWORD }}
+        #kubectl apply -f ./manifests/mssql-secret.yaml  
+        #kubectl get secrets  
+        #kubectl create secret generic mhc-database --from-literal=password=${{ secrets.SQL_DB_PASSWORD }}
         kubectl get secrets
 
     # Runs a single command using the runners shell
