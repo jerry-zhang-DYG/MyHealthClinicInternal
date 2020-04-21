@@ -42,6 +42,11 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Setup kubeconfig
+      id: setup-kubeconfig
+      run: |
+        aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME 
+
     - name: Invoke Secret key
       run: |
         kubectl apply -f ./manifests/mssql-secret.yaml  
@@ -70,11 +75,6 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         echo $IMAGE_TAG
-        
-    - name: Setup kubeconfig
-      id: setup-kubeconfig
-      run: |
-        aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME 
 
 
     - name: Deploy k8s yaml
