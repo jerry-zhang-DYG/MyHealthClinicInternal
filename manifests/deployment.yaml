@@ -32,6 +32,6 @@ spec:
         - name: ConnectionStrings__DefaultConnection
           valueFrom:
             secretKeyRef:
-                name: mssql-secret
-                key: db-connection-string-secret
+                name: mhc-database
+                key: connection
       terminationGracePeriodSeconds: 120
