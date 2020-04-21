@@ -75,29 +75,25 @@ jobs:
           -t $CONTAINER_IMAGE \
           -t $ECR_REGISTRY/$CONTAINER_IMAGE .
 
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
     - name: Display Images
       run: docker images
 
-    # Tags and Pushes the image to the ECR
-    - name: Tag and Push the Image
+    # Pushes the image to the ECR
+    - name: Push the Image
       id: tag-image  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: myhealth.web.1
-      run: |        
-        # Build a docker container and push it to ECR so that it can be deployed to EKS.
-        echo docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        echo $IMAGE_TAG
+      run: |      
+        docker push $ECR_REGISTRY/$CONTAINER_IMAGE        
 
 
     - name: Deploy k8s yaml
       id: deploy-k8s-yaml
       env:
         K8S_YAML_DIR: ./manifests 
-        IMAGE_NAME: ${{ steps.tag-image.outputs.image }}
+        IMAGE_NAME: ${{ steps.build-image.outputs.image }}
       run: |
         # Setup kustomize
         cd $K8S_YAML_DIR
