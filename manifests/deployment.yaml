@@ -19,7 +19,7 @@ spec:
         # image: REGISTRY/REPO:TAG
         # The full image will be dynamically added by Kustomize in the workflow.
         image: image-placeholder
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         - containerPort: 443
