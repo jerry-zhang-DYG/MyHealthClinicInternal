@@ -69,7 +69,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}   
         BUILDNUMBER: ${{ steps.buildNumber.outputs.build_number }}
-        CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${ env.BUILDNUMBER }
+        CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
       run: |        
         docker build \
           -t $CONTAINER_IMAGE \
