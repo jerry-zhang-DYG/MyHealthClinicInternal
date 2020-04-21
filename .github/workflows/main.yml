@@ -61,6 +61,7 @@ jobs:
     - name: Display Images
       run: docker images
 
+
     # Tags and Pushes the image to the ECR
     - name: Tag and Push the Image
       id: tag-image  
