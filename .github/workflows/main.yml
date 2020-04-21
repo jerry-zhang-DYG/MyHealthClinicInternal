@@ -68,8 +68,8 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-      run: docker-compose -f docker-compose.yml build
       run: |
+        docker-compose -f docker-compose.yml build
         docker build \
           -t $CONTAINER_IMAGE \
           -t $ECR_REGISTRY/$CONTAINER_IMAGE .
