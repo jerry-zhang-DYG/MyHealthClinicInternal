@@ -51,7 +51,7 @@ jobs:
       run: |
         #kubectl apply -f ./manifests/mssql-secret.yaml  
         #kubectl get secrets  
-        kubectl create secret generic mhc-database --from-literal=password=${{ secrets.SQL_DB_PASSWORD }} --from-literal=connection="${{ secrets.SQL_DB_CONNECTION_STRING }}"
+        #kubectl create secret generic mhc-database --from-literal=password=${{ secrets.SQL_DB_PASSWORD }} --from-literal=connection="${{ secrets.SQL_DB_CONNECTION_STRING }}"
         kubectl get secrets
 
     # Runs a single command using the runners shell
@@ -67,7 +67,7 @@ jobs:
       id: tag-image  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: water-medical-0413
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }} 
         IMAGE_TAG: myhealth.web.1
       run: |        
         # Build a docker container and push it to ECR so that it can be deployed to EKS.
