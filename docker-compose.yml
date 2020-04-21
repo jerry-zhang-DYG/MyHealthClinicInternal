@@ -8,13 +8,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"          
-    environment:
-        ConnectionStrings__DefaultConnection: "Server=tcp:myhealth.sql;Initial Catalog=mhcdb;Persist Security Info=False;User ID=sa;Password=@#^!JSSH&*asd;MultipleActiveResultSets=False;TrustServerCertificate=True;Connection Timeout=30;"
+    #environment:
+        #ConnectionStrings__DefaultConnection: "Server=tcp:myhealth.sql;Initial Catalog=mhcdb;Persist Security Info=False;User ID=sa;Password=@#^!JSSH&*asd;MultipleActiveResultSets=False;TrustServerCertificate=True;Connection Timeout=30;"
     depends_on: [myhealth.sql]
   myhealth.sql:
     image: "mcr.microsoft.com/mssql/server"
-    environment:
-        SA_PASSWORD: "@#^!JSSH&*asd"
-        ACCEPT_EULA: "Y"
-    ports:
-        - "1433:1433"
+    #environment:
+        #SA_PASSWORD: "@#^!JSSH&*asd"
+        #ACCEPT_EULA: "Y"
+    #ports:
+        #- "1433:1433"
