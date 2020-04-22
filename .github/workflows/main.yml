@@ -49,7 +49,7 @@ jobs:
     - name: SonarCloud Scan C#
       uses: Secbyte/dotnet-sonarscanner@v2.2
       with:
-        buildCommand: dotnet build .
+        buildCommand: dotnet build MHC_ASPNetCore.sln 
         projectKey: ComputerEnterprisesInc_MyHealthClinicInternal
         projectName: MyHealthClinicInternal
         sonarOrganisation: computerenterprisesinc
