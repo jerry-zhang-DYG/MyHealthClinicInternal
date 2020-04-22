@@ -20,6 +20,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+    # The sonar prop files interferes with the .net sonar scanner
+    - name: cleanup sonar props file 
+      run: rm sonar-project.properties
+
     - name: SonarCloud Scan C#
       uses: Secbyte/dotnet-sonarscanner@v2.2
       with:
@@ -29,7 +33,6 @@ jobs:
         sonarOrganisation: computerenterprisesinc
         beginArguments: >
           /d:sonar.projectBaseDir="../"
-          /d:sonar.project.settings=""
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
