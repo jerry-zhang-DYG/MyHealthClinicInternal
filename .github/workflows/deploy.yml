@@ -88,3 +88,8 @@ jobs:
         # List Public IP of cluster
         kubectl get services -o wide
         kubectl get ingress 
+    
+    - name: Run Selenium Test
+      run: |
+          npm install selenium-side-runner
+          npx selenium-side-runner --server ${{secrets.SELENIUM_GRID_HUB}} --base-url "http://$(kubectl get service health-app-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")" test/selenium/fulltest.side
