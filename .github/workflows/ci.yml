@@ -24,8 +24,8 @@ jobs:
       uses: Secbyte/dotnet-sonarscanner@v2.2
       with:
         buildCommand: dotnet build MHC_ASPNetCore.sln 
-        projectKey: ComputerEnterprisesInc_MyHealthClinicInternal
-        projectName: MyHealthClinicInternal
+        projectKey: myhealthinternalcsharp
+        projectName: myhealthinternal
         sonarOrganisation: computerenterprisesinc
         beginArguments: >
           /d:sonar.verbose="true"
