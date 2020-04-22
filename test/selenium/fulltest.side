@@ -361,6 +361,13 @@
       ],
       "value": ""
     }, {
+      "id": "b22afcf2-32ef-4aca-b9da-de6bff4d9559",
+      "comment": "",
+      "command": "pause",
+      "target": "3000",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "2a121bb4-5600-47aa-9161-664fe55c71ad",
       "comment": "",
       "command": "click",
@@ -511,7 +518,7 @@
       "id": "592f0bae-337e-4f04-a182-eb036282e2b9",
       "comment": "",
       "command": "pause",
-      "target": "1000",
+      "target": "3000",
       "targets": [],
       "value": ""
     }, {
