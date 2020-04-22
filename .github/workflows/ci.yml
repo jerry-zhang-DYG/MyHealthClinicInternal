@@ -39,5 +39,5 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
  
     - name: docker build
-      run: docker build
+      run: docker build .
 
