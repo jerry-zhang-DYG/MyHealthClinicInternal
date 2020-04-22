@@ -66,6 +66,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "6bd061a6-fe9b-46df-b3a4-9bdd89cfcc88",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "2064x1128",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "873b6242-24e2-47d9-bef6-e1d8689292ff",
       "comment": "",
       "command": "click",
@@ -152,7 +159,7 @@
       "id": "7b76fdbc-70b5-4146-9857-30262b6a5889",
       "comment": "",
       "command": "pause",
-      "target": "10000",
+      "target": "15000",
       "targets": [],
       "value": ""
     }, {
@@ -165,6 +172,13 @@
         ["xpath=//div[@id='app']/header/header-bar/div", "xpath:idRelative"],
         ["xpath=//header-bar/div", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "4760c95d-1ef4-48a6-a670-84b247d63319",
+      "comment": "",
+      "command": "pause",
+      "target": "2000",
+      "targets": [],
       "value": ""
     }, {
       "id": "c18b3ab2-451b-4860-afa3-e444000370b1",
@@ -205,7 +219,7 @@
       "id": "67a279ef-5e0d-4edf-b45c-f7864077bfbb",
       "comment": "",
       "command": "pause",
-      "target": "10000",
+      "target": "15000",
       "targets": [],
       "value": ""
     }, {
@@ -240,6 +254,13 @@
       "comment": "",
       "command": "open",
       "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "059d39a5-1eb1-47db-8c5a-2c8c5fac5fce",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "2064x1128",
       "targets": [],
       "value": ""
     }, {
