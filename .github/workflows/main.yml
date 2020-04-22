@@ -40,11 +40,23 @@ jobs:
     - name: Print new build number
       run: echo "Build number is $BUILD_NUMBER"
       
-    - name: SonarCloud Scan
+    - name: SonarCloud Scan js and html
       uses: SonarSource/sonarcloud-github-action@v1.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    - name: SonarCloud Scan C#
+      uses: Secbyte/dotnet-sonarscanner@v2.2
+      with:
+        buildCommand: dotnet build .
+        projectKey: ComputerEnterprisesInc_MyHealthClinicInternal
+        projectName: MyHealthClinicInternal
+        sonarOrganisation: computerenterprisesinc
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
     # Login into AWS
     - name: Configure AWS Credentials
