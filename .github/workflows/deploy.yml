@@ -61,8 +61,8 @@ jobs:
     - name: Push the Image
       id: tag-image  
       env:
-      ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
       run: |      
         docker push $ECR_REGISTRY/$CONTAINER_IMAGE        
 
