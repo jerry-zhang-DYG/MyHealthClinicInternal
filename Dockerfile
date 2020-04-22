@@ -11,3 +11,4 @@ WORKDIR /app
 COPY --from=build-env /app/src/MyHealth.Web/out .
 EXPOSE 80
 ENTRYPOINT ["dotnet", "MyHealth.Web.dll"]
+
