@@ -41,50 +41,50 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-   - name: docker build
-     id: build-image
-     env:
-       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}   
-       BUILDNUMBER: ${{ steps.buildNumber.outputs.build_number }}
-       CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
-     run: |        
+    - name: docker build
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}   
+        BUILDNUMBER: ${{ steps.buildNumber.outputs.build_number }}
+        CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
+      run: |        
        docker build \
          -t $CONTAINER_IMAGE \
          -t $ECR_REGISTRY/$CONTAINER_IMAGE .
 
        echo "::set-output name=image::$ECR_REGISTRY/$CONTAINER_IMAGE"
 
-   - name: Display Images
-     run: docker images
+    - name: Display Images
+        run: docker images
 
-   # Pushes the image to the ECR
-   - name: Push the Image
-     id: tag-image  
-     env:
-       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-       CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
-     run: |      
-       docker push $ECR_REGISTRY/$CONTAINER_IMAGE        
-
-   - name: Setup kubeconfig
-     id: setup-kubeconfig
-     run: |
-        aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME 
-   
-        - name: Deploy k8s yaml
-        id: deploy-k8s-yaml
+    # Pushes the image to the ECR
+    - name: Push the Image
+        id: tag-image  
         env:
-          K8S_YAML_DIR: ./manifests 
-          IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        CONTAINER_IMAGE: ${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}
+        run: |      
+        docker push $ECR_REGISTRY/$CONTAINER_IMAGE        
+
+    - name: Setup kubeconfig
+        id: setup-kubeconfig
         run: |
-          # Setup kustomize
-          cd $K8S_YAML_DIR
-          curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          chmod u+x ./kustomize
-          ./kustomize edit set image image-placeholder=$IMAGE_NAME
-          ./kustomize build . | kubectl apply -f -
-          # Verify deployment
-          kubectl rollout status deployment/health-app-deployment
-          # List Public IP of cluster
-          kubectl get services -o wide
-          kubectl get ingress 
+            aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME 
+    
+            - name: Deploy k8s yaml
+            id: deploy-k8s-yaml
+            env:
+            K8S_YAML_DIR: ./manifests 
+            IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+            run: |
+            # Setup kustomize
+            cd $K8S_YAML_DIR
+            curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+            chmod u+x ./kustomize
+            ./kustomize edit set image image-placeholder=$IMAGE_NAME
+            ./kustomize build . | kubectl apply -f -
+            # Verify deployment
+            kubectl rollout status deployment/health-app-deployment
+            # List Public IP of cluster
+            kubectl get services -o wide
+            kubectl get ingress 
