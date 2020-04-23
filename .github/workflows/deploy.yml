@@ -79,6 +79,7 @@ jobs:
       run: |
         # Setup kustomize
         cd $K8S_YAML_DIR
+        cd base
         curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
         ./kustomize edit set image image-placeholder=$IMAGE_NAME
@@ -104,6 +105,6 @@ jobs:
         # The name of the release. For example, `Release v1.0.1`
         release_name: 'Production Release: ${{steps.buildNumber.outputs.build_number}}'
         # Text describing the contents of the tag.
-        body: "** RELEASE NOTES **"
+        body: "${{ secrets.ECR_REPOSITORY }}:${{ steps.buildNumber.outputs.build_number }}"
         # `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
         draft: true
