@@ -19,7 +19,7 @@ if (![].fill) {
         return O;
     };
 }
-'use strict';
+
 
 var MyHealthClinic = MyHealthClinic || {};
 
@@ -37,7 +37,7 @@ MyHealthClinic.Config = (function () {
         companyLocation: companyLocation
     };
 })();
-'use strict';
+
 
 var MyHealthClinic = MyHealthClinic || {};
 MyHealthClinic.Pages = MyHealthClinic.Pages || {};
