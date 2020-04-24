@@ -9,8 +9,10 @@ namespace MyHealth.API.Validators
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly PasswordValidator<ApplicationUser> _passwordValidator;
 
-        public string InvalidPasswordMessage { get; } = "Password is invalid, it must contain uppercase and lowercase characters, numbers and a symbol.";
-        public string InvalidUserNameMessage { get; } = "That username is already in use.";
+        public virtual string InvalidPasswordMessage { get; } = "Password is invalid, it must contain uppercase and lowercase characters, numbers and a symbol.";
+        public virtual string InvalidUserNameMessage { get; } = "That username is already in use.";
+
+        public ApplicationUserValidators() { }
 
         public ApplicationUserValidators(UserManager<ApplicationUser> userManager)
         {
@@ -18,12 +20,12 @@ namespace MyHealth.API.Validators
             _passwordValidator = new PasswordValidator<ApplicationUser>();
         }
 
-        public async Task<bool> ValidatePasswordAsync(ApplicationUser user, string password)
+        public virtual async Task<bool> ValidatePasswordAsync(ApplicationUser user, string password)
         {
             return (await _passwordValidator.ValidateAsync(_userManager, user, password)).Succeeded;
         }
 
-        public async Task<bool> ValidateUserName(string username)
+        public virtual async Task<bool> ValidateUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             return user == null;

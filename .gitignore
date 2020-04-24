@@ -20,3 +20,4 @@
 .vscode/
 
 .sonarqube/
+/test/MyHealthWeb.UnitTest/obj

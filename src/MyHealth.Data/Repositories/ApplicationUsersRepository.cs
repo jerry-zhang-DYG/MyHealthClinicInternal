@@ -13,6 +13,8 @@ namespace MyHealth.Data.Repositories
         MyHealthContext _context;
         UserManager<ApplicationUser> _userManager { get; set; }
 
+        public ApplicationUsersRepository() { }
+
         public ApplicationUsersRepository(MyHealthContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
