@@ -74,7 +74,7 @@
 
 .inline-input {
     @media #{$for-desktop-or-greater} {
-        width: calc(99.5%/3);
+        width: calc(99.5% / 3);
         display: inline-block;
     }
 }
