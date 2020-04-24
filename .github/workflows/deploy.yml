@@ -79,6 +79,7 @@ jobs:
       run: |
         # Setup kustomize
         cd $K8S_YAML_DIR
+        cd base
         curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
         ./kustomize edit set image image-placeholder=$IMAGE_NAME
@@ -93,3 +94,17 @@ jobs:
       run: |
           npm install selenium-side-runner
           npx selenium-side-runner --server ${{secrets.SELENIUM_GRID_HUB}} --base-url "http://$(kubectl get service health-app-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")" test/selenium/fulltest.side
+    
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
+        tag_name: 'PROD.${{ steps.buildNumber.outputs.build_number }}'
+        # The name of the release. For example, `Release v1.0.1`
+        release_name: 'Production Release: ${{steps.buildNumber.outputs.build_number}}'
+        # Text describing the contents of the tag.
+        body: "${{ steps.build-image.outputs.image }}"
+        # `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
+        draft: true

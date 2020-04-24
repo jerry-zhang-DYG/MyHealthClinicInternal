@@ -15,6 +15,7 @@
 /src/MyHealth.Helpers/obj
 /test/MyHealth.API.IntegrationTests/obj
 /test/MyHealth.API.IntegrationTests/bin/Debug/netcoreapp1.0
+/test/MyHealth.LoadTests/obj
 
 **/bin
 .vscode/

@@ -1,0 +1,56 @@
+name: ProdRelease
+
+on:
+  release:
+    types: [ published ]
+
+env:
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_DEFAULT_OUTPUT: json
+    AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  
+    AWS_CLUSTER_NAME: ${{ secrets.AWS_CLUSTER_NAME }} 
+
+jobs:
+  release:
+    if: startsWith(github.event.release.tag_name, 'PROD')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+   
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Setup kubeconfig
+      id: setup-kubeconfig
+      run: |
+        aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME 
+
+    - name: Deploy k8s yaml
+      id: deploy-k8s-yaml
+      env:
+        K8S_YAML_DIR: ./manifests 
+        IMAGE_NAME: ${{ github.event.release.body }}
+      run: |
+        # Setup kustomize
+        cd $K8S_YAML_DIR
+        cd prod
+        curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+        ./kustomize edit set image image-placeholder=$IMAGE_NAME
+        ./kustomize build . | kubectl apply -f -
+        # Verify deployment
+        kubectl rollout status deployment/health-app-deployment
+        # List Public IP of cluster
+        kubectl get services -o wide
+        kubectl get ingress
